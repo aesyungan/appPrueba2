@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet library="css" name="default.css"/>
+        <h:outputStylesheet library="css" name="cssLayout.css"/>
+        <title>Facelets Template</title>
+
+        <f:event type="preRenderView" listener="#{templateController.verificarLogin()}"> </f:event>
+    </h:head>
+
+    <h:body>
+        <h:form id="frm-s" >
+            <p:growl showSummary="true" sticky="true" />
+            <p:menubar styleClass="bg-info">
+                <p:menuitem  url="admin.xhtml">
+                    <img width="30px" src="https://images-na.ssl-images-amazon.com/images/I/313cnZULc9L.png"></img>
+                </p:menuitem>
+                <p:submenu label="Seguridad" icon="pi pi-iser">
+                    <p:menuitem value="Usuario" url="usuario.xhtml" />
+                </p:submenu>
+                <f:facet name="options">
+                    <p:commandButton update="frm-s" action ="#{templateController.cerrar()}" icon="ui-icon-power"/>
+                </f:facet>
+            </p:menubar>
+
+        </h:form>
+
+
+        <div id="content" class="center_content ">
+            <ui:insert name="content">Content</ui:insert>
+        </div>
+
+        <div id="bottom">
+            <ui:insert name="bottom">Bottom</ui:insert>
+        </div>
+
+    </h:body>
+
+</html>

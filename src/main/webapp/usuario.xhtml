@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./adminTemplate.xhtml">
+
+            <ui:define name="content">
+                <h2 >Lista de Usuario</h2>
+                <h:form id="frm-btn" style="justify-content: flex-start; display: flex;" >
+                    <p:commandButton styleClass="btn btn-success"   value="Nuevo" icon="ui ui-check" update="frm-n" actionListener="#{usuarioController.openModalNuevo()}" />
+                </h:form>
+                <h:form id="frm" style="justify-content: center; display: flex;" >
+                    <p:growl sticky="true" showDetail="true"/>
+                    <p:dataTable paginator="true" style="width: 100%" id="table" value="#{usuarioController.lstUsuario}" var="u">
+                        <p:column headerText="rol">
+                            <p:outputLabel styleClass="badge badge-info" value="#{u.rol.descripcion}"/>
+                        </p:column>
+                        <p:column headerText="Nombres">
+                            <p:outputLabel value="#{u.nombres} #{u.apellidos}"/>
+                        </p:column>
+                        <p:column headerText="Edad">
+                            <p:outputLabel value="#{u.edad}"/>
+                        </p:column>
+                        <p:column headerText="Edad">
+                            <p:outputLabel value="#{u.genero}"/>
+                        </p:column>
+                        <p:column headerText="Fecha">
+                            <p:outputLabel value="#{u.fecha}"/>
+                        </p:column>
+                        <p:column headerText="Accion">
+                            <p:commandButton  value="Editar" icon="ui ui-check" update="frm-n nuevo-m" actionListener="#{usuarioController.openModalEdit(u)}" />
+
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+                <p:dialog header="#{usuarioController.isEdit?'Editar':'Nuevo'}" widgetVar="nuevo" modal="true" id="nuevo-m">
+
+                    <h:form id="frm-n" style="justify-content: center; display: flex;" >
+                        <p:growl sticky="true" showDetail="true"/>
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="rol" for="rol" />
+                            <p:selectOneMenu id="rol" required="true" value="#{usuarioController.rol.codigo}">
+                                <f:selectItems itemValue="#{i.codigo}" itemLabel="#{i.descripcion}" var="i"  value="#{usuarioController.lstRol}" />
+                            </p:selectOneMenu>
+                            <p:outputLabel value="nombres" for="nombres"/>
+                            <p:inputText id="nombres" value="#{usuarioController.usuario.nombres}" required="true" />
+                            <p:outputLabel value="apellidos" for="apellidos" />
+                            <p:inputText id="apellidos" value="#{usuarioController.usuario.apellidos}" required="true" />
+                            <p:outputLabel value="edad" for="edad"/>
+                            <p:inputText id="edad" value="#{usuarioController.usuario.edad}" type="number" required="true" />
+                            <p:outputLabel value="genero" for="genero" />
+                            <p:selectOneRadio id="genero"  required="true" value="#{usuarioController.usuario.genero}" >
+                                <f:selectItem itemLabel="Femenino" itemValue="F" />
+                                <f:selectItem itemLabel="Masculino" itemValue="M" />
+                            </p:selectOneRadio>
+                            <p:outputLabel value="correo" for="correo" />
+                            <p:inputText id="correo" value="#{usuarioController.usuario.correo}"  required="true" />
+                            <p:outputLabel value="clave" for="clave" />
+                            <p:inputText id="clave" value="#{usuarioController.usuario.clave}"  required="true" />
+
+                            <p:outputLabel value="fecha" for="fecha"/>
+                            <p:calendar id="fecha" lang="es" value="#{usuarioController.usuario.fecha}"  required="true" />
+                            <h:column />
+                            <p:commandButton value="#{usuarioController.isEdit?'Editar':'Nuevo'}" update="nuevo-m frm frm-n frm:table" oncomplete="PF('nuevo').hide()" actionListener="#{usuarioController.nuevo()}" />
+                        </p:panelGrid>
+
+                    </h:form>
+                </p:dialog>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
